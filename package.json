@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "heroku": "^7.53.1",
     "mongoose": "^5.12.8",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "psql": "0.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
