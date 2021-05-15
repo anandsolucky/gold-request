@@ -9,7 +9,7 @@ router.get("/", authenticate, async (req, res) => {
   if (availableCoins != null) {
     return res.status(200).json({ "available coins": availableCoins });
   } else {
-    return res.status(404).send("error while fetching coins");
+    return res.status(500).send("error while fetching coins");
   }
 });
 
@@ -22,7 +22,7 @@ router.post("/reset", authenticate, async (req, res) => {
   if (resetQuery) {
     return res.status(200).send(`bucket reset to ${resetValue} coins`);
   } else {
-    return res.status(404).send("error while reseting the bucket");
+    return res.status(500).send("error while reseting the bucket");
   }
 });
 
@@ -32,18 +32,18 @@ router.post("/", authenticate, async (req, res) => {
   const requestedUser = req.body.user;
   if (requestedCoins <= 0) {
     return res
-      .status(305)
+      .status(400)
       .send("Bad Request! please request coins in positive range");
   }
   const availableCoins = await getAvailableCoins();
   if (availableCoins == null) {
     console.log("error in fetching coins : " + availableCoins);
-    res.status(400).send("error in fetching coins");
+    res.status(500).send("error in fetching coins");
   } else {
     const remainingCoins = availableCoins - requestedCoins;
     if (requestedCoins > availableCoins) {
       return res
-        .status(300)
+        .status(400)
         .send(
           `bad request, not enough coins available in the bucket! your request: ${requestedCoins} , bucket balance ${availableCoins}`
         );
