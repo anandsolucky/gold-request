@@ -85,7 +85,7 @@ router.delete("/history", authenticate, async (req, res) => {
 });
 // get available coin from the bucket
 async function getAvailableCoins() {
-  const getCoinsQuery = await pool.query("SELECT coins FROM bucket");
+  const getCoinsQuery = await pool.query("SELECT coins FROM bucket for update");
   console.log("get coins query output: " + getCoinsQuery);
   if (getCoinsQuery) {
     console.log(
