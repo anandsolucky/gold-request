@@ -110,10 +110,10 @@ async function UpdateBucket(requestedCoins, availableCoins, requestedUser) {
       availableCoins,
       requestedCoins
     );
-    if (updateTransactionResposne == "success") return "success";
-    else {
+    if (updateTransactionResposne == "success") {
+      return "success";
+    } else {
       // rollback to maintain atomicity
-      console.log("transaction entry is failed -- rollback");
       return "success";
     }
   }
@@ -125,18 +125,15 @@ async function updateTransaction(
   availableCoins,
   requestedCoins
 ) {
-  // console.log("--requser: --" + requestedUser + ", , coins: " + requestedCoins);
+  const balanceAfterRequest = availableCoins - requestedCoins;
   const updateTransactionQuery = await pool.query(
     "INSERT INTO transactions(requested_user, requested_coins,balance_before_request,balance_after_request) values ($1,$2,$3,$4)",
-    [
-      requestedUser,
-      requestedCoins,
-      availableCoins,
-      availableCoins - requestedCoins,
-    ]
+    [requestedUser, requestedCoins, availableCoins, balanceAfterRequest]
   );
 
-  if (updateTransactionQuery) return "success";
+  if (updateTransactionQuery) {
+    return "success";
+  }
   return "error";
 }
 
