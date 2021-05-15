@@ -1,6 +1,6 @@
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  connectionString: process.env.connectionString,
+  connectionString: process.env.DATABASE_URL,
   // host: "ec2-3-215-57-87.compute-1.amazonaws.com",
   // database: "adf88ai6eq5lknfpi",
 
